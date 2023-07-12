@@ -1992,7 +1992,7 @@ class CellService(ObjectService):
         
         # try a different approach, as JSON into dict blows up memory by 10x
         # first get cellset as JSON string
-        print('Retrieve cellset over web')
+        print('Retrieve cellset over web', flush=True)
         start_time = time.perf_counter()
         cellset_response = self.extract_cellset_raw_response(cellset_id, cell_properties=["Value"], top=top, skip=skip,
                                                 skip_contexts=True, skip_zeros=skip_zeros,
@@ -2002,10 +2002,10 @@ class CellService(ObjectService):
                                                 elem_properties=['Name'],
                                                 member_properties=['Name', 'Attributes'] if include_attributes else None,
                                                 **kwargs)
-        print("Get everything web retrieve took %s seconds"%(time.perf_counter()-start_time))
+        print("Get everything web retrieve took %s seconds"%(time.perf_counter()-start_time), flush=True)
 
         # start parsing of JSON directly into CSV
-        print('Start parse JSON into CSV')
+        print('Start parse JSON into CSV', flush=True)
         dimension_list = []
         axes0_list = []
         axes1_list = []
@@ -2051,10 +2051,10 @@ class CellService(ObjectService):
                     csv_lines.append('~'.join(dimension_list))
                 current_axes = value
         # remove last cr from csv
-        print("Parse JSON to CSV took %s seconds"%(time.perf_counter()-start_time))
+        print("Parse JSON to CSV took %s seconds"%(time.perf_counter()-start_time), flush=True)
         start_time = time.perf_counter()
         csv = '\r\n'.join(csv_lines)
-        print("CSV join took %s seconds"%(time.perf_counter()-start_time))
+        print("CSV join took %s seconds"%(time.perf_counter()-start_time), flush=True)
 
         # close response
         cellset_response.close()
